@@ -281,12 +281,10 @@ Element::Element(const std::string& newVal){
         if(isDouble() == true){
             this->doubleValue = std::stod(newVal);
             this->type_ = ElementType::DOUBLE;
-            std::cout << "doubleValue: " << doubleValue << std::endl;
             //changeType();
         } else {
             this->intValue = std::stoi(newVal);
             this->type_ = ElementType::INT;
-            std::cout << "intValue: " << intValue << std::endl;
         }
 
         
@@ -300,7 +298,6 @@ Element::Element(const std::string& newVal){
 
 double Element::Value() const{
     if(this->type_ == ElementType::DOUBLE){
-    std::cout << "IntValue reached in Value" << std::endl;
         return DoubleValue();
     }
     return IntValue();

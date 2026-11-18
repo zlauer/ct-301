@@ -6,12 +6,14 @@
 #include "element.h"
 using namespace std;
 
+bool isDouble = false;
 double rightDouble;
 double leftDouble;
 int rightInt;
 int leftInt;
 string op;
 Element newElement;
+Element result;
 
 void toElement(string newVal){
     newElement = Element(newVal);
@@ -32,12 +34,12 @@ void conversion(string operand){
     {
         if(newElement.type_ == ElementType::DOUBLE){
             leftDouble = stod(operand);
-            std::cout << leftDouble;
+            isDouble = true;
         }
         else
         {
             leftInt = stoi(operand);
-            std::cout << leftInt;
+            isDouble = false;
         }
     }
     catch(const std::invalid_argument& e)
@@ -125,10 +127,50 @@ void argumentChecker(int count, char* arguments[]){
 }
 
 
+void evaluateExpression(string op){
+    double solution;
+    switch (op.at(0))
+    {
+    case '+':
+        solution = rightOperand + leftOperand;
+        break;
+    
+    case '-':
+        solution = rightOperand - leftOperand;
+        break;
+    
+    case '*':
+        solution = rightOperand * leftOperand;
+        break;
+    
+    case '/':
+        if(leftOperand == 0){
+            std::cerr << "Error: cannot divide by zero." << endl;
+            exit(4);
+        }
+        solution = rightOperand / leftOperand;
+        break;
+    
+    case '%':
+        solution = rightOperand % leftOperand;
+        break; 
+    default:
+        break;
+    }
+    
+    cout << solution << endl;
+    
+    return 0;
+}
+
 void outputMessage(){
  
     std::cout << newElement.Value() << " ";
     std::cout << op << " ";
+    if(isDouble == true){
+        std::cout << leftDouble << " ";
+    }
+    std::cout << leftInt << " ";
     std::cout << endl;    
 }
 
