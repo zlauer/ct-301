@@ -114,8 +114,6 @@ void argumentChecker(int count, char* arguments[]){
         right = arguments[1];
         ope = arguments[2];
         left = arguments[3];
-        //conversion(right, left, op);
-
         // instead -- taking the two elements and passing them into elements from Here
         // toElement(left); -- only seems to be really meant to affect one of the elements in the overall problem instead of both
         toElement(right);
@@ -129,7 +127,9 @@ void argumentChecker(int count, char* arguments[]){
 
 void outputMessage(){
  
-    std::cout << newElement.Value() << op << endl;    
+    std::cout << newElement.Value() << " ";
+    std::cout << op << " ";
+    std::cout << endl;    
 }
 
 
@@ -149,6 +149,7 @@ int main(int argc, char* argv[]){
     }
     
     argumentChecker(argc, argv);
+
     outputMessage();
     
     return 0;

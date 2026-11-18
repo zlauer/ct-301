@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include "element.h"
 
 
@@ -7,24 +8,27 @@
 
 /*  ADDITION    */
 
-// asked ai for help w this logic:
-
-    // element + double (both r doubles)
+    // Element + double
     Element operator+(const Element& lhs, const double& rhs){
         if(lhs.type_ == ElementType::INT){
-            return Element(static_cast<double>(lhs.intValue + rhs));
+            return Element(lhs.intValue + rhs);
         }
-        return Element(lhs.doubleValue + rhs);
+        else if(lhs.type_ == ElementType::DOUBLE){
+            return Element(lhs.DoubleValue() + rhs);
+        }
+        else {
+            throw std::invalid_argument("Invalid Element Addition.");
+        }
     }
     
-// Element + int -- ASKED FOR HELP W THIS. citation found on HW3/doc.md
+    // Element + int -- ASKED FOR HELP W THIS. citation found on HW3/doc.md
     Element operator+(const Element& lhs, const int& rhs) {
         if (lhs.type_ == ElementType::INT) {
             return Element(lhs.IntValue() + rhs);
         }
-    else if (lhs.type_ == ElementType::DOUBLE) {
+        else if (lhs.type_ == ElementType::DOUBLE) {
             return Element(lhs.DoubleValue() + rhs);
-    }
+        }
         else {
             throw std::invalid_argument("Invalid Element addition");
         }
@@ -42,131 +46,218 @@
 
 
 /*  SUBTRACTION    */
-    // element - double (both r doubles)
+    // Element - double
     Element operator-(const Element& lhs, const double& rhs){
-        if(lhs.type_ == ElementType::INT){
-            return Element(static_cast<double>(lhs.intValue - rhs));
+         if(lhs.type_ == ElementType::INT){
+            return Element(lhs.intValue - rhs);
         }
-        return Element(lhs.doubleValue) - rhs;
+        else if(lhs.type_ == ElementType::DOUBLE){
+            return Element(lhs.DoubleValue() - rhs);
+        }
+        else {
+            throw std::invalid_argument("Invalid Element Subtraction.");
+        }
     }
     
-    // element - int (both r ints)
+    // Element - int
     Element operator-(const Element& lhs, const int& rhs){
-        if(lhs.type_ == ElementType::INT){
-            return Element(lhs.intValue) - rhs;
+        if (lhs.type_ == ElementType::INT) {
+            return Element(lhs.IntValue() - rhs);
         }
-        return lhs.intValue - rhs;
+        else if (lhs.type_ == ElementType::DOUBLE) {
+            return Element(lhs.DoubleValue() - rhs);
+        }
+        else {
+            throw std::invalid_argument("Invalid Element - int subtraction");
+        }
     }
     
     // double - element
     Element operator-(const double& lhs, const Element& rhs){
-        return lhs - rhs;
+        if(rhs.type_ == ElementType::DOUBLE){
+            return Element(lhs - rhs.DoubleValue());
+        }
+        else if(rhs.type_ == ElementType::INT){
+            return Element(lhs - rhs.IntValue());
+        } else {
+            throw std::invalid_argument("Invalid Element subtraction");
+        }
     }
    
     // int - element
     Element operator-(const int& lhs, const Element& rhs){
-        return lhs - rhs;
+        if(rhs.type_ == ElementType::INT){
+            return Element(lhs - rhs.IntValue());
+        }
+        else if(rhs.type_ == ElementType::INT){
+            return Element(lhs - rhs.DoubleValue());
+        } else {
+            throw std::invalid_argument("Invalid Element subtraction");
+        }
     }
 
 
 /*  MULTIPLY    */
-    // element * double (both r doubles)
+    // Element * double
     Element operator*(const Element& lhs, const double& rhs){
-        if(lhs.type_ == ElementType::INT){
-            return Element(static_cast<double>(lhs.intValue * rhs));
-        }
-        return Element(lhs.doubleValue) * rhs;
+    if(lhs.type_ == ElementType::INT){
+        return Element(lhs.IntValue() * rhs);
     }
-    
-    // element * int (both r ints)
+    else if(lhs.type_ == ElementType::DOUBLE){
+        return Element(lhs.DoubleValue() * rhs);
+    }
+    else {
+        throw std::invalid_argument("Invalid Element Multiplication.");
+    }
+}
+
+    // Element * int
     Element operator*(const Element& lhs, const int& rhs){
-        if(lhs.type_ == ElementType::INT){
-            return Element(lhs.intValue) * rhs;
-        }
-        return lhs.intValue * rhs;
+    if(lhs.type_ == ElementType::DOUBLE){
+        return Element(lhs.DoubleValue() * rhs);
     }
+    else if(lhs.type_ == ElementType::INT){
+        return Element(lhs.IntValue() * rhs);
+    }
+    else {
+        throw std::invalid_argument("Invalid Element Multiplication.");
+    }
+}
 
     // double * element
     Element operator*(const double& lhs, const Element& rhs){
-        return lhs * rhs;
+        return rhs * lhs;
     }
 
     // int * element
     Element operator*(const int& lhs, const Element& rhs){
-        return lhs * rhs;
+        return rhs * lhs;
     }
 
-/*  DIVISION    */
-    // element / double (both r doubles)
-    Element operator/(const Element& lhs, const double& rhs){
-        if(rhs != 0.0){
-            if(lhs.type_ == ElementType::INT){
-            return Element(static_cast<double>(lhs.intValue / rhs));
+/*  DIVISION  : i recieved help in this section. documentation can be found in HW3/doc.md  */
+
+// Element / double
+Element operator/(const Element& lhs, const double& rhs){
+    if(rhs == 0.0){
+        exit(2);
+    }
+
+    if(lhs.type_ == ElementType::INT){
+        return Element(lhs.IntValue() / rhs);
+    }
+    else if(lhs.type_ == ElementType::DOUBLE){
+        return Element(lhs.DoubleValue() / rhs);
+    }
+    else {
+        throw std::invalid_argument("Invalid Element Division.");
+    }
+}
+
+// Element / int
+Element operator/(const Element& lhs, const int& rhs){
+    if(rhs == 0){
+        exit(2);
+    }
+
+    if(lhs.type_ == ElementType::INT){
+        return Element(lhs.IntValue() / rhs);
+    }
+    else if(lhs.type_ == ElementType::DOUBLE){
+        return Element(lhs.DoubleValue() / rhs);
+    }
+    else {
+        throw std::invalid_argument("Invalid Element Division.");
+    }
+}
+
+// double / Element
+Element operator/(const double& lhs, const Element& rhs){
+    if(rhs.type_ == ElementType::INT){
+        if(rhs.IntValue() == 0){
+            exit(2);
         }
-            return Element(lhs.doubleValue) / rhs;
+        return Element(lhs / rhs.IntValue());
+    }
+    else if(rhs.type_ == ElementType::DOUBLE){
+        if(rhs.DoubleValue() == 0.0){
+            exit(2);
         }
-        exit(2);
-
+        return Element(lhs / rhs.DoubleValue());
     }
+    else {
+        throw std::invalid_argument("Invalid Element Division.");
+    }
+}
 
-    // element / int (both r ints)
-    Element operator/(const Element& lhs, const int& rhs){
-        if(rhs != 0){
-            if(lhs.type_ == ElementType::INT){
-                return Element(lhs.intValue) / rhs;
-            }
+// int / Element
+Element operator/(const int& lhs, const Element& rhs){
+    if(rhs.type_ == ElementType::INT){
+        if(rhs.IntValue() == 0){
+            exit(2);
         }
-        exit(2);
-
+        return Element(lhs / rhs.IntValue());
     }
-
-    // double / element
-    Element operator/(const double& lhs, const Element& rhs){
-        if(rhs.doubleValue != 0){
-            return lhs / rhs;
+    else if(rhs.type_ == ElementType::DOUBLE){
+        if(rhs.DoubleValue() == 0.0){
+            exit(2);
         }
+        return Element(static_cast<double>(lhs) / rhs.DoubleValue());
+    }
+    else {
+        throw std::invalid_argument("Invalid Element Division.");
+    }
+}
+
+/*  MODULO    */
+
+// Element % double
+Element operator%(const Element& lhs, const double& rhs){
+    if(lhs.IntValue() == 0){
+        exit(2);
+    }
+    if(rhs == 0){
+        exit(2);
+    }
+    exit(2);
+}
+
+// Element % int
+Element operator%(const Element& lhs, const int& rhs){
+    if(rhs == 0){
         exit(2);
     }
 
-    // int / element
-    Element operator/(const int& lhs, const Element& rhs){
-        if(rhs.doubleValue != 0){
-            return lhs / rhs;
+    if(lhs.type_ == ElementType::INT){
+        return Element(lhs.IntValue() % rhs);
+    }
+    else {
+        exit(2);
+    }
+}
+
+// double % Element
+Element operator%(const double& lhs, const Element& rhs){
+    if(lhs == 0){
+        exit(2);
+    }
+    if(rhs.IntValue() == 0){
+        exit(2);
+    }
+    exit(2);
+}
+
+// int % Element
+Element operator%(const int& lhs, const Element& rhs){
+    if(rhs.type_ == ElementType::INT){
+        if(rhs.IntValue() == 0){
+            exit(2);
         }
+        return Element(lhs % rhs.IntValue());
+    }
+    else {
         exit(2);
     }
-
-/*  MODULO  */
-// element % double (both r doubles)
-  /*  Element operator%(const Element& lhs, const double& rhs){
-        std::cerr << "error: cannot compute modulo with presented numbers:" << endl;
-        exit(2);
-
-    } */
-
-    // element % int (both r ints)
-    Element operator%(const Element& lhs, const int& rhs){
-        if(rhs != 0){
-            if(lhs.type_ == ElementType::INT){
-                return Element(lhs.intValue) % rhs;
-            }
-        }
-        exit(2);
-
-    }
-
-    // double % element
-   /* Element operator%(const double& lhs, const Element& rhs){
-        std::cerr << "error: cannot compute modulo with presented numbers: " << endl;
-        exit(2);
-    }*/
-
-    // int % element
-    Element operator%(const int& lhs, const Element& rhs){
-        return lhs % rhs;
-    }
-
-    //Element &operator<<(const Element& lhs, const Element& rhs){    }
+}
 
 
 Element::Element(int newInt){
