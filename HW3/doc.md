@@ -67,7 +67,21 @@ bool isNumeric(const std::string& str) {
 **void openFile(string fileName)**  is a function designed to open a file from the command line.  I found help on [GeeksforGeeks](https://www.geeksforgeeks.org/cpp/read-input-until-eof-in-cpp/).
 
 # element.cpp
- --
+**operator+ (Element + int, int + int logic)**  took my previous iteration of an operator overload for addition and helped me understand where infinite recursion would occur.
+```
+```// Element + int
+Element operator+(const Element& lhs, const int& rhs) {
+    if (lhs.type_ == ElementType::INT) {
+        return Element(lhs.IntValue() + rhs);
+    }
+    else if (lhs.type_ == ElementType::DOUBLE) {
+        return Element(lhs.DoubleValue() + rhs);
+    }
+    else {
+        throw std::invalid_argument("Invalid Element addition");
+    }
+}
+ 
 # operation.cpp
  --
 
