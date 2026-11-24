@@ -40,84 +40,7 @@ void toElementLeft(double newVal){
     leftElement = Element(newVal);
 }
 
-// citation found on HW3/doc.md for AI usage under argumentChecker(string) 
-void argumentChecker(string line){
-    string right;
-    string left;
-    string ope;
-
-    std::stringstream ss(line);
-    std::string word;
-    
-    std::vector<std::string> lineSeperated;
-
-    while (ss >> word) {
-        lineSeperated.push_back(word);
-    }
-    
-    right = lineSeperated[0];
-    ope = lineSeperated[1];
-    left = lineSeperated[2];
-
-    toElementRight(right);
-    op = ope;
-    toElementLeft(left);
-
-}
-
-// citation found on HW3/doc.md under function's name openFile.
-void openFile(string fileName){
-    ifstream inFS;
-    string fileLine;
-
-    inFS.open(fileName);
-
-    if(!inFS.is_open()){
-        cerr << "Error: could not open file " << fileName << "." << endl;
-    }
-
-    while (getline(inFS, fileLine))
-    {
-        // overload of argumentChecker()
-        argumentChecker(fileLine);
-
-    }
-    if(!inFS.eof()){
-        cerr << "uhhh end of file error uhhh" << endl;
-    }
-
-    //remembering to close the file
-    inFS.close();
-
-
-}
-
-
-void argumentChecker(int count, char* arguments[]){
-    string right;
-    string left;
-    string ope;
-    string fileName;
-
-    if(count == 2){
-        fileName = arguments[1];
-        openFile(fileName);
-    } else {
-        right = arguments[1];
-        ope = arguments[2];
-        left = arguments[3];
-        // instead -- taking the two elements and passing them into elements from Here
-        // toElement(left); -- only seems to be really meant to affect one of the elements in the overall problem instead of both
-        toElementRight(right);
-        op = ope;
-        toElementLeft(left);
-        
-    }
-    
-}
-
-
- Element evaluateExpression(string op){
+Element evaluateExpression(string op){
     Element solution;
     switch (op.at(0))
     {
@@ -155,13 +78,89 @@ void argumentChecker(int count, char* arguments[]){
 
 void outputMessage(){
  
-    std::cout << rightElement.Value() << " ";
-    std::cout << op << " ";
     std::cout << leftElement.Value() << " ";
+    std::cout << op << " ";
+    std::cout << rightElement.Value() << " ";
     std::cout << " = ";
-    evaluateExpression(op); 
+    evaluateExpression(op);
 }
 
+// citation found on HW3/doc.md for AI usage under argumentChecker(string) 
+void argumentChecker(string line){
+    string right;
+    string left;
+    string ope;
+
+    std::stringstream ss(line);
+    std::string word;
+    
+    std::vector<std::string> lineSeperated;
+
+    while (ss >> word) {
+        lineSeperated.push_back(word);
+    }
+    
+    left = lineSeperated[0];
+    ope = lineSeperated[1];
+    right = lineSeperated[2];
+
+    toElementRight(right);
+    op = ope;
+    toElementLeft(left);
+
+}
+
+// citation found on HW3/doc.md under function's name openFile.
+void openFile(string fileName){
+    ifstream inFS;
+    string fileLine;
+
+    inFS.open(fileName);
+
+    if(!inFS.is_open()){
+        cerr << "Error: could not open file " << fileName << "." << endl;
+    }
+
+    while (getline(inFS, fileLine))
+    {
+        // overload of argumentChecker()
+        argumentChecker(fileLine);
+
+        outputMessage();
+
+    }
+    if(!inFS.eof()){
+        cerr << "uhhh end of file error uhhh" << endl;
+    }
+
+    //remembering to close the file
+    inFS.close();
+
+
+}
+
+void argumentChecker(int count, char* arguments[]){
+    string right;
+    string left;
+    string ope;
+    string fileName;
+
+    if(count == 2){
+        fileName = arguments[1];
+        openFile(fileName);
+    } else {
+        left = arguments[1];
+        ope = arguments[2];
+        right = arguments[3];
+        // instead -- taking the two elements and passing them into elements from Here
+        // toElement(left); -- only seems to be really meant to affect one of the elements in the overall problem instead of both
+        toElementRight(right);
+        op = ope;
+        toElementLeft(left);
+        
+    }
+    
+}
 
 int main(int argc, char* argv[]){
     // main(haha) goal for this is to check if there's anything other
@@ -180,7 +179,9 @@ int main(int argc, char* argv[]){
     
     argumentChecker(argc, argv);
 
-    outputMessage();
+    if (argc == 4) {
+        outputMessage();
+    }
     
     return 0;
 }
