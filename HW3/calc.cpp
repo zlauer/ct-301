@@ -40,29 +40,6 @@ void toElementLeft(double newVal){
     leftElement = Element(newVal);
 }
 
-
-// conversion - meant to only convert the left number into an int or a double
-void conversion(string operand){
-    try
-    {
-        if(rightElement.type_ == ElementType::DOUBLE){
-            leftDouble = stod(operand);
-            isDouble = true;
-        }
-        else
-        {
-            leftInt = stoi(operand);
-            isDouble = false;
-        }
-    }
-    catch(const std::invalid_argument& e)
-    {
-        std::cerr << "Error: cannot convert to numeric value." << '\n';
-        exit(2);
-    }
-    
-}
-
 // citation found on HW3/doc.md for AI usage under argumentChecker(string) 
 void argumentChecker(string line){
     string right;
@@ -140,7 +117,7 @@ void argumentChecker(int count, char* arguments[]){
 }
 
 
- void evaluateExpression(string op){
+ Element evaluateExpression(string op){
     Element solution;
     switch (op.at(0))
     {
@@ -173,7 +150,7 @@ void argumentChecker(int count, char* arguments[]){
     
     cout << solution.Value() << endl;
     
-    //return 0;
+    return solution;
 }
 
 void outputMessage(){
@@ -181,7 +158,8 @@ void outputMessage(){
     std::cout << rightElement.Value() << " ";
     std::cout << op << " ";
     std::cout << leftElement.Value() << " ";
-    std::cout << endl;    
+    std::cout << " = ";
+    evaluateExpression(op); 
 }
 
 
