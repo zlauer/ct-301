@@ -12,19 +12,32 @@ double leftDouble;
 int rightInt;
 int leftInt;
 string op;
-Element newElement;
+Element rightElement;
+Element leftElement;
 Element result;
 
-void toElement(string newVal){
-    newElement = Element(newVal);
+void toElementRight(string newVal){
+    rightElement = Element(newVal);
 }
 
-void toElement(int newVal){
-    newElement = Element(newVal);
+void toElementRight(int newVal){
+    rightElement = Element(newVal);
 }
 
-void toElement(double newVal){
-    newElement = Element(newVal);
+void toElementRight(double newVal){
+    rightElement = Element(newVal);
+}
+
+void toElementLeft(string newVal){
+    leftElement = Element(newVal);
+}
+
+void toElementLeft(int newVal){
+    leftElement = Element(newVal);
+}
+
+void toElementLeft(double newVal){
+    leftElement = Element(newVal);
 }
 
 
@@ -32,7 +45,7 @@ void toElement(double newVal){
 void conversion(string operand){
     try
     {
-        if(newElement.type_ == ElementType::DOUBLE){
+        if(rightElement.type_ == ElementType::DOUBLE){
             leftDouble = stod(operand);
             isDouble = true;
         }
@@ -69,9 +82,9 @@ void argumentChecker(string line){
     ope = lineSeperated[1];
     left = lineSeperated[2];
 
-    toElement(right);
+    toElementRight(right);
     op = ope;
-    conversion(left);
+    toElementLeft(left);
 
 }
 
@@ -118,41 +131,41 @@ void argumentChecker(int count, char* arguments[]){
         left = arguments[3];
         // instead -- taking the two elements and passing them into elements from Here
         // toElement(left); -- only seems to be really meant to affect one of the elements in the overall problem instead of both
-        toElement(right);
+        toElementRight(right);
         op = ope;
-        conversion(left);
+        toElementLeft(left);
         
     }
     
 }
 
 
-void evaluateExpression(string op){
-    double solution;
+ void evaluateExpression(string op){
+    Element solution;
     switch (op.at(0))
     {
     case '+':
-        solution = rightOperand + leftOperand;
+        solution = leftElement + rightElement;
         break;
     
     case '-':
-        solution = rightOperand - leftOperand;
+        solution = leftElement - rightElement;
         break;
     
     case '*':
-        solution = rightOperand * leftOperand;
+        solution = leftElement * rightElement;
         break;
     
     case '/':
-        if(leftOperand == 0){
+        if(leftElement == 0){
             std::cerr << "Error: cannot divide by zero." << endl;
             exit(4);
         }
-        solution = rightOperand / leftOperand;
+        solution = leftElement / rightElement;
         break;
     
     case '%':
-        solution = rightOperand % leftOperand;
+        solution = leftElement % rightElement;
         break; 
     default:
         break;
@@ -165,12 +178,9 @@ void evaluateExpression(string op){
 
 void outputMessage(){
  
-    std::cout << newElement.Value() << " ";
+    std::cout << rightElement.Value() << " ";
     std::cout << op << " ";
-    if(isDouble == true){
-        std::cout << leftDouble << " ";
-    }
-    std::cout << leftInt << " ";
+    std::cout << leftElement.Value() << " ";
     std::cout << endl;    
 }
 

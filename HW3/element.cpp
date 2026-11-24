@@ -44,6 +44,23 @@
         return rhs + lhs;
     }
 
+    // Element + element
+    Element operator+(const Element& lhs, const Element& rhs){
+        if(lhs.type_ == ElementType::STRING || lhs.type_ == ElementType::NONE){
+            std::cerr << "Error: incorrect types.";
+            exit(3);
+        }
+        else if(rhs.type_ == ElementType::STRING || rhs.type_ == ElementType::NONE){
+            std::cerr << "Error: incorrect types.";
+            exit(3);
+            /* COME BACK AND EDIT THESE CODES!!!! */
+        }
+        else if(lhs.type_ == ElementType::DOUBLE || rhs.type_ == ElementType::DOUBLE){
+            return Element(lhs.DoubleValue() + rhs.DoubleValue()); 
+        }
+        return Element(lhs.IntValue() + rhs.IntValue());
+    }
+
 
 /*  SUBTRACTION    */
     // Element - double

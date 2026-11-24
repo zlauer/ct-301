@@ -35,6 +35,8 @@ class Element {
     friend Element operator+(const double& lhs, const Element& rhs);
     // int + element
     friend Element operator+(const int& lhs, const Element& rhs);
+    // element + element
+    friend Element operator+(const Element& lhs, const Element& rhs);
 
 
     // element - double (both r doubles)
