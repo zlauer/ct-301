@@ -113,6 +113,23 @@
         }
     }
 
+     // Element - Element
+    Element operator-(const Element& lhs, const Element& rhs){
+        if(lhs.type_ == ElementType::STRING || lhs.type_ == ElementType::NONE){
+            std::cerr << "Error: incorrect types.";
+            exit(3);
+        }
+        else if(rhs.type_ == ElementType::STRING || rhs.type_ == ElementType::NONE){
+            std::cerr << "Error: incorrect types.";
+            exit(3);
+            /* COME BACK AND EDIT THESE CODES!!!! */
+        }
+        else if(lhs.type_ == ElementType::DOUBLE || rhs.type_ == ElementType::DOUBLE){
+            return Element(lhs.DoubleValue() - rhs.DoubleValue()); 
+        }
+        return Element(lhs.IntValue() - rhs.IntValue());
+    }
+
 
 /*  MULTIPLY    */
     // Element * double
@@ -149,6 +166,23 @@
     // int * element
     Element operator*(const int& lhs, const Element& rhs){
         return rhs * lhs;
+    }
+
+    // element * element
+     Element operator*(const Element& lhs, const Element& rhs){
+        if(lhs.type_ == ElementType::STRING || lhs.type_ == ElementType::NONE){
+            std::cerr << "Error: incorrect types.";
+            exit(3);
+        }
+        else if(rhs.type_ == ElementType::STRING || rhs.type_ == ElementType::NONE){
+            std::cerr << "Error: incorrect types.";
+            exit(3);
+            /* COME BACK AND EDIT THESE CODES!!!! */
+        }
+        else if(lhs.type_ == ElementType::DOUBLE || rhs.type_ == ElementType::DOUBLE){
+            return Element(lhs.DoubleValue() * rhs.DoubleValue()); 
+        }
+        return Element(lhs.IntValue() * rhs.IntValue());
     }
 
 /*  DIVISION  : i recieved help in this section. documentation can be found in HW3/doc.md  */
@@ -225,6 +259,25 @@ Element operator/(const int& lhs, const Element& rhs){
     }
 }
 
+//Element / Element
+Element operator/(const Element& lhs, const Element& rhs){
+    if(rhs.type_ == ElementType::INT){
+        if(rhs.IntValue() == 0){
+            exit(2);
+        }
+        return Element(lhs.IntValue() / rhs.IntValue());
+    }
+    else if(rhs.type_ == ElementType::DOUBLE){
+        if(rhs.DoubleValue() == 0.0){
+            exit(2);
+        }
+        return Element(lhs.DoubleValue() / rhs.DoubleValue());
+    }
+    else {
+        throw std::invalid_argument("Invalid Element Division.");
+    }
+}
+
 /*  MODULO    */
 
 // Element % double
@@ -265,6 +318,20 @@ Element operator%(const double& lhs, const Element& rhs){
 
 // int % Element
 Element operator%(const int& lhs, const Element& rhs){
+    if(rhs.type_ == ElementType::INT){
+        if(rhs.IntValue() == 0){
+            exit(2);
+        }
+        return Element(lhs % rhs.IntValue());
+    }
+    else {
+        exit(2);
+    }
+}
+
+// Element % Element
+// int % Element
+Element operator%(const Element& lhs, const Element& rhs){
     if(rhs.type_ == ElementType::INT){
         if(rhs.IntValue() == 0){
             exit(2);

@@ -157,7 +157,7 @@ void argumentChecker(int count, char* arguments[]){
         break;
     
     case '/':
-        if(leftElement == 0){
+        if(leftElement.Value() == 0){
             std::cerr << "Error: cannot divide by zero." << endl;
             exit(4);
         }
@@ -171,9 +171,9 @@ void argumentChecker(int count, char* arguments[]){
         break;
     }
     
-    cout << solution << endl;
+    cout << solution.Value() << endl;
     
-    return 0;
+    //return 0;
 }
 
 void outputMessage(){
