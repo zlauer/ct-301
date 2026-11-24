@@ -55,10 +55,10 @@
             exit(3);
             /* COME BACK AND EDIT THESE CODES!!!! */
         }
-        else if(lhs.type_ == ElementType::DOUBLE || rhs.type_ == ElementType::DOUBLE){
-            return Element(lhs.DoubleValue() + rhs.DoubleValue()); 
+        else if(lhs.type_ == ElementType::INT && rhs.type_ == ElementType::INT){
+            return Element(lhs.IntValue() + rhs.IntValue()); 
         }
-        return Element(lhs.IntValue() + rhs.IntValue());
+        return Element(lhs.Value() + rhs.Value());
     }
 
 
@@ -106,7 +106,7 @@
         if(rhs.type_ == ElementType::INT){
             return Element(lhs - rhs.IntValue());
         }
-        else if(rhs.type_ == ElementType::INT){
+        else if(rhs.type_ == ElementType::DOUBLE){
             return Element(lhs - rhs.DoubleValue());
         } else {
             throw std::invalid_argument("Invalid Element subtraction");
@@ -124,10 +124,10 @@
             exit(3);
             /* COME BACK AND EDIT THESE CODES!!!! */
         }
-        else if(lhs.type_ == ElementType::DOUBLE || rhs.type_ == ElementType::DOUBLE){
-            return Element(lhs.DoubleValue() - rhs.DoubleValue()); 
+        else if(lhs.type_ == ElementType::INT && rhs.type_ == ElementType::INT){
+            return Element(lhs.IntValue() - rhs.IntValue()); 
         }
-        return Element(lhs.IntValue() - rhs.IntValue());
+        return Element(lhs.Value() - rhs.Value());
     }
 
 
@@ -179,10 +179,10 @@
             exit(3);
             /* COME BACK AND EDIT THESE CODES!!!! */
         }
-        else if(lhs.type_ == ElementType::DOUBLE || rhs.type_ == ElementType::DOUBLE){
-            return Element(lhs.DoubleValue() * rhs.DoubleValue()); 
+        else if(lhs.type_ == ElementType::INT && rhs.type_ == ElementType::INT){
+            return Element(lhs.IntValue() * rhs.IntValue()); 
         }
-        return Element(lhs.IntValue() * rhs.IntValue());
+        return Element(lhs.Value() * rhs.Value());
     }
 
 /*  DIVISION  : i recieved help in this section. documentation can be found in HW3/doc.md  */
@@ -261,21 +261,18 @@ Element operator/(const int& lhs, const Element& rhs){
 
 //Element / Element
 Element operator/(const Element& lhs, const Element& rhs){
-    if(rhs.type_ == ElementType::INT){
-        if(rhs.IntValue() == 0){
-            exit(2);
-        }
+    if(rhs.Value() == 0){
+        exit(2);
+    }
+
+    if(lhs.type_ == ElementType::NONE || lhs.type_ == ElementType::STRING){
+        throw std::invalid_argument("Invalid Element Divison");
+    }
+
+    else if(lhs.type_ == ElementType::INT && rhs.type_ == ElementType::INT){
         return Element(lhs.IntValue() / rhs.IntValue());
     }
-    else if(rhs.type_ == ElementType::DOUBLE){
-        if(rhs.DoubleValue() == 0.0){
-            exit(2);
-        }
-        return Element(lhs.DoubleValue() / rhs.DoubleValue());
-    }
-    else {
-        throw std::invalid_argument("Invalid Element Division.");
-    }
+        return Element(lhs.Value() / rhs.Value());
 }
 
 /*  MODULO    */

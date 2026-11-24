@@ -1,93 +1,131 @@
 
+#include "element.h"
 #include <iostream>
 #include <stdexcept>
-#include "element.h"
+#include <string>
 
 using namespace std;
 
+// Keep track of test results.
+int passed = 0;
+int failed = 0;
+
+// Check whether the result matches the expected value and type.
+void check(const string& testName, const Element& result,
+           double expected, ElementType expectedType) {
+
+    bool valueCorrect = (result.Value() == expected);
+    bool typeCorrect = (result.type_ == expectedType);
+
+    if (valueCorrect && typeCorrect) {
+        cout << "[PASS] " << testName << endl;
+        passed++;
+    } else {
+        cout << "[FAIL] " << testName
+             << " | Expected: " << expected
+             << " | Got: " << result.Value()
+             << " | Expected type: " << static_cast<int>(expectedType)
+             << " | Got type: " << static_cast<int>(result.type_)
+             << endl;
+        failed++;
+    }
+}
+
+// Catch exceptions so one failed test does not stop the suite.
+template <typename Func>
+void checkThrows(const string& testName, Func operation) {
+    try {
+        operation();
+        cout << "[FAIL] " << testName << " | Expected an exception"
+             << endl;
+        failed++;
+    } catch (const exception&) {
+        cout << "[PASS] " << testName << endl;
+        passed++;
+    }
+}
+
 int main() {
 
-    cout << "===== ELEMENT OPERATOR TESTS =====" << endl;
-
-    try {
-
-        // TEST 1: INT + INT
-        cout << "\nTEST 1: INT + INT" << endl;
-
-        Element a(5);
-        Element b(5);
-
-        Element result1 = a + b;
-
-        cout << "Expected: 10" << endl;
-        cout << "Result: " << result1.IntValue() << endl;
+        cout << "TEST PROGRAM STARTED!" << endl;
 
 
-        // TEST 2: DOUBLE + DOUBLE
-        cout << "\nTEST 2: DOUBLE + DOUBLE" << endl;
+    Element i1(10);
+    Element i2(3);
+    Element d1(10.5);
+    Element d2(2.5);
+    Element str;
+    str.type_ = ElementType::STRING;
+    str.strVal = "hello";
+    Element empty;
 
-        Element c(5.5);
-        Element d(2.5);
+    cout << "\n========== ADDITION ==========\n";
 
-        Element result2 = c + d;
+    check("Element + Element (INT + INT)", i1 + i2, 13, ElementType::INT);
+    check("Element + Element (INT + DOUBLE)", i1 + d2, 12.5, ElementType::DOUBLE);
+    check("Element + Element (DOUBLE + INT)", d1 + i2, 13.5, ElementType::DOUBLE);
+    check("Element + Element (DOUBLE + DOUBLE)", d1 + d2, 13.0, ElementType::DOUBLE);
 
-        cout << "Expected: 8.0" << endl;
-        cout << "Result: " << result2.DoubleValue() << endl;
+    check("Element + int", i1 + 5, 15, ElementType::INT);
+    check("Element + double", i1 + 2.5, 12.5, ElementType::DOUBLE);
+    check("int + Element", 5 + i1, 15, ElementType::INT);
+    check("double + Element", 2.5 + i1, 12.5, ElementType::DOUBLE);
 
+    cout << "\n========== SUBTRACTION ==========\n";
 
-        // TEST 3: INT + DOUBLE
-        cout << "\nTEST 3: INT + DOUBLE" << endl;
+    check("Element - Element (INT - INT)", i1 - i2, 7, ElementType::INT);
+    check("Element - Element (INT - DOUBLE)", i1 - d2, 7.5, ElementType::DOUBLE);
+    check("Element - Element (DOUBLE - INT)", d1 - i2, 7.5, ElementType::DOUBLE);
+    check("Element - Element (DOUBLE - DOUBLE)", d1 - d2, 8.0, ElementType::DOUBLE);
 
-        Element e(5);
-        Element f(2.5);
+    check("Element - int", i1 - 3, 7, ElementType::INT);
+    check("Element - double", i1 - 2.5, 7.5, ElementType::DOUBLE);
+    check("int - Element", 15 - i1, 5, ElementType::INT);
+    check("double - Element", 15.5 - i1, 5.5, ElementType::DOUBLE);
 
-        Element result3 = e + f;
+    cout << "\n========== MULTIPLICATION ==========\n";
 
-        cout << "Expected: 7.5" << endl;
-        cout << "Result: " << result3.DoubleValue() << endl;
+    check("Element * Element (INT * INT)", i1 * i2, 30, ElementType::INT);
+    check("Element * Element (INT * DOUBLE)", i1 * d2, 25.0, ElementType::DOUBLE);
+    check("Element * Element (DOUBLE * INT)", d1 * i2, 31.5, ElementType::DOUBLE);
+    check("Element * Element (DOUBLE * DOUBLE)", d1 * d2, 26.25, ElementType::DOUBLE);
 
+    check("Element * int", i1 * 3, 30, ElementType::INT);
+    check("Element * double", i1 * 2.5, 25.0, ElementType::DOUBLE);
+    check("int * Element", 3 * i1, 30, ElementType::INT);
+    check("double * Element", 2.5 * i1, 25.0, ElementType::DOUBLE);
 
-        // TEST 4: DOUBLE + INT
-        cout << "\nTEST 4: DOUBLE + INT" << endl;
+    cout << "\n========== DIVISION ==========\n";
 
-        Element g(5.5);
-        Element h(2);
+    check("Element / Element (INT / INT)", i1 / i2, 3, ElementType::INT);
+    check("Element / Element (INT / DOUBLE)", i1 / d2, 4.0, ElementType::DOUBLE);
+    check("Element / Element (DOUBLE / INT)", d1 / i2, 3.5, ElementType::DOUBLE);
+    check("Element / Element (DOUBLE / DOUBLE)", d1 / d2, 4.2, ElementType::DOUBLE);
 
-        Element result4 = g + h;
+    check("Element / int", i1 / 2, 5, ElementType::INT);
+    check("Element / double", i1 / 2.5, 4.0, ElementType::DOUBLE);
+    check("int / Element", 30 / i1, 3, ElementType::INT);
+    check("double / Element", 30.0 / i1, 3.0, ElementType::DOUBLE);
 
-        cout << "Expected: 7.5" << endl;
-        cout << "Result: " << result4.DoubleValue() << endl;
+    cout << "\n========== MODULO ==========\n";
 
+    check("Element % int", i1 % 3, 1, ElementType::INT);
+    check("int % Element", 23 % i1, 3, ElementType::INT);
+    check("Element % Element (INT % INT)", i1 % i2, 1, ElementType::INT);
 
-        // TEST 5: ELEMENT + INT
-        cout << "\nTEST 5: ELEMENT + INT" << endl;
+    cout << "\n========== INVALID OPERATIONS ==========\n";
 
-        Element i(10);
+    /*
+    checkThrows("STRING + Element", [&]() { auto result = str + i1; });
+    checkThrows("Element + STRING", [&]() { auto result = i1 + str; });
+    checkThrows("NONE + Element", [&]() { auto result = empty + i1; });
+    checkThrows("Element + NONE", [&]() { auto result = i1 + empty; });
+    */
 
-        Element result5 = i + 5;
+    cout << "\n========== TEST SUMMARY ==========\n";
+    cout << "Passed: " << passed << endl;
+    cout << "Failed: " << failed << endl;
+    cout << "Total:  " << passed + failed << endl;
 
-        cout << "Expected: 15" << endl;
-        cout << "Result: " << result5.IntValue() << endl;
-
-
-        // TEST 6: ELEMENT + DOUBLE
-        cout << "\nTEST 6: ELEMENT + DOUBLE" << endl;
-
-        Element j(10);
-
-        Element result6 = j + 5.5;
-
-        cout << "Expected: 15.5" << endl;
-        cout << "Result: " << result6.DoubleValue() << endl;
-
-
-        cout << "\n===== ALL TESTS COMPLETED =====" << endl;
-
-    }
-    catch (const exception& e) {
-        cerr << "TEST FAILED: " << e.what() << endl;
-        return 1;
-    }
-
-    return 0;
+    return failed == 0 ? 0 : 1;
 }
