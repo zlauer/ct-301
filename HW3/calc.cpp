@@ -81,7 +81,7 @@ void outputMessage(){
     std::cout << leftElement.Value() << " ";
     std::cout << op << " ";
     std::cout << rightElement.Value() << " ";
-    std::cout << " = ";
+    std::cout << "= ";
     evaluateExpression(op);
 }
 
