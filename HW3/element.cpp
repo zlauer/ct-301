@@ -422,3 +422,7 @@ void Element::changeType(){
     }
 
 }
+
+void Element::Clone(){
+    //function meant to return a current, allocated copy of the Element being worked with
+}
