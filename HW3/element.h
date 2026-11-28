@@ -17,6 +17,8 @@ class Element {
     Element(int newInt);
     Element(double newDouble);
     Element(const std::string& newVal);
+    virtual Element* Clone() const;
+    ~Element() = default;
 
     virtual double Value() const;
     virtual double DoubleValue() const;
@@ -24,7 +26,6 @@ class Element {
     virtual bool isDouble() const;
     virtual void Value(double newVal);
     virtual void changeType();
-    virtual void Clone();
 
     // element + double (both r doubles)
     friend Element operator+(const Element& lhs, const double& rhs);

@@ -1,7 +1,12 @@
 #ifndef OPERATION_H_INCLUDED
 #define OPERATION_H_INCLUDED
 
-class Operation{
+class Operation : public Element{
+    private:
+    Element* leftElem;
+    char op;
+    Element* rightElem;
+
     public:
     /*
     Operation(const string& element) - Parses a 3-token equation string (e.g. "4.6 - 99")

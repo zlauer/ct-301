@@ -362,7 +362,6 @@ Element::Element(const std::string& newVal){
         if(isDouble() == true){
             this->doubleValue = std::stod(newVal);
             this->type_ = ElementType::DOUBLE;
-            //changeType();
         } else {
             this->intValue = std::stoi(newVal);
             this->type_ = ElementType::INT;
@@ -375,6 +374,11 @@ Element::Element(const std::string& newVal){
         exit(0);
     }
 
+}
+
+// in creating this I think? this is how Clone() is supposed to work?
+Element* Element::Clone() const{
+    return new Element(*this);
 }
 
 double Element::Value() const{
@@ -402,6 +406,7 @@ bool Element::isDouble() const{
     }
     return true;
 }
+// i might need to come back to tis to add more functionality differences...
 
 void Element::Value(double newVal){
     if(this->type_ == ElementType::DOUBLE){
@@ -423,6 +428,3 @@ void Element::changeType(){
 
 }
 
-void Element::Clone(){
-    //function meant to return a current, allocated copy of the Element being worked with
-}
