@@ -4,17 +4,15 @@
 #include <cstdlib>
 #include <vector>
 #include "element.h"
+#include "operation.h"
 using namespace std;
 
-bool isDouble = false;
-double rightDouble;
-double leftDouble;
-int rightInt;
-int leftInt;
 string op;
 Element rightElement;
 Element leftElement;
 Element result;
+Operation operation;
+
 
 void toElementRight(string newVal){
     rightElement = Element(newVal);
