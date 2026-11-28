@@ -1,11 +1,18 @@
 #ifndef OPERATION_H_INCLUDED
 #define OPERATION_H_INCLUDED
 
+#include "element.h"
+
 class Operation : public Element{
     private:
-    Element* leftElem;
-    char op;
-    Element* rightElem;
+        Element* leftElem;
+        char op;
+        Element* rightElem;
+
+           /* HELPER FUNCTIONS */
+
+        void toToken(){};
+        void toElement(){};
 
     public:
     /*
@@ -21,12 +28,12 @@ class Operation : public Element{
         virtual ~Operator() - Destructor, should ensure that the left and right Element members are properly freed. 
         Note: If your base class Element does not already contain a virtual destructor, you should add one 
     */
-    Operation() = default;
-    Operation(const std::string& element);
-    Operation(const Element& leftElem, char op, const Element& rightElem);
-    Operation(const Operation& other);
-    Operation& operator=(Operation);
-    ~Operator();
+        Operation() = default;
+        Operation(const std::string& element);
+        Operation(const Element& leftElem, char op, const Element& rightElem);
+        Operation(const Operation& other);
+        Operation& operator=(Operation);
+        ~Operator();
 
     /*
     virtual double Value() const override - Evaluates the left and right elements and performs integer or floating-point math depending on 
@@ -41,9 +48,9 @@ class Operation : public Element{
     A similar Clone() method should be added to your Element class that returns a new heap-allocated copy of the current Element object
     */
 
-    double Value() const : public virtual Element{};
-    int IntValue() const : public virtual Element{};
-    double DoubleValue() const : public virtual Element{};
-    bool IsDouble() const : public virtual Element{};
-    Element* Clone() const : public virtual Element{};
+        double Value() const : public virtual Element{};
+        int IntValue() const : public virtual Element{};
+        double DoubleValue() const : public virtual Element{};
+        bool IsDouble() const : public virtual Element{};
+        Element* Clone() const : public virtual Element{};
 }

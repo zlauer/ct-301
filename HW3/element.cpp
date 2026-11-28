@@ -359,7 +359,7 @@ Element::Element(const std::string& newVal){
     this->strVal = newVal;
     try{
         //goal is to parse it into an integer or a double -- basically conversion()
-        if(isDouble() == true){
+        if(IsDouble() == true){
             this->doubleValue = std::stod(newVal);
             this->type_ = ElementType::DOUBLE;
         } else {
@@ -396,7 +396,7 @@ int Element::IntValue() const{
     return this->intValue;
 }
 
-bool Element::isDouble() const{
+bool Element::IsDouble() const{
     //this implementation is geared toward the Element(string)
     // i reached for help with this -- I used AI for the contents of the if statement
     if(strVal.find('.') == std::string::npos){

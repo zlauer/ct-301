@@ -6,11 +6,7 @@
 #include "element.h"
 using namespace std;
 
-bool isDouble = false;
-double rightDouble;
-double leftDouble;
-int rightInt;
-int leftInt;
+//HW3 - remove Element variables when the time calls for it?
 string op;
 Element rightElement;
 Element leftElement;

@@ -23,7 +23,7 @@ class Element {
     virtual double Value() const;
     virtual double DoubleValue() const;
     virtual int IntValue() const;
-    virtual bool isDouble() const;
+    virtual bool IsDouble() const;
     virtual void Value(double newVal);
     virtual void changeType();
 
